@@ -1386,6 +1386,10 @@ class Nvc(Runner):
                     f"{type(self).__qualname__} only supports VHDL. build_args {arg.value!r} will not be applied."
                 )
 
+        build_args = [arg.value for arg in self._build_args]
+        if "-a" not in build_args:
+            build_args.append("-a")
+
         cmds = [
             [
                 "nvc",
@@ -1393,8 +1397,7 @@ class Nvc(Runner):
                 "-L",
                 str(get_abs_path(self.build_dir)),
             ]
-            + [arg.value for arg in self._build_args]
-            + ["-a"]
+            + build_args
             + [str(source.value) for source in sources]
             + self._preserve_case
         ]
