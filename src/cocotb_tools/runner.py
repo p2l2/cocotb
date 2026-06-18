@@ -1347,6 +1347,12 @@ class Nvc(Runner):
         else:
             self._preserve_case = []
 
+    def set_preserve_case(self, preserve_case: bool):
+        if preserve_case:
+            self._preserve_case = ["--preserve-case"]
+        else:
+            self._preserve_case = []
+
     def _set_env_test(self) -> None:
         super()._set_env_test()
         if "COCOTB_TRUST_INERTIAL_WRITES" not in self.env:
