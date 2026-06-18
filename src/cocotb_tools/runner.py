@@ -1412,6 +1412,14 @@ class Nvc(Runner):
 
     def _test_command(self) -> list[_Command]:
         work_library = str(get_abs_path(self.build_dir / self.hdl_toplevel_library))
+
+
+        # build args
+        # common-args -a ana-only-args
+        build_args = [arg.value for arg in self._build_args]
+        if "-a" in build_args:
+            build_args = build_args[:build_args.index("-a")]
+
         cmds = [
             [
                 *self._get_sim_cmd_prefix(),
@@ -1420,7 +1428,7 @@ class Nvc(Runner):
                 "-L",
                 str(get_abs_path(self.build_dir)),
             ]
-            + [arg.value for arg in self._build_args]
+            + build_args
             + ["-e", self.sim_hdl_toplevel, "--no-save", "--jit"]
             + self.elab_args
             + self._get_parameter_options(self.parameters)
